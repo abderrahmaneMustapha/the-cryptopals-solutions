@@ -22,20 +22,21 @@ def calculate_text_score(text):
     lower_case_text = text.lower()
     score = 0
     for char in lower_case_text:
-        if char in english_letter_freq or not char:
+        if char in english_letter_freq :
             score+= english_letter_freq[char]
         else:
-            score += -10
+            score += 0
     return score
-
-def main():
-
-    text = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
-    result_list = []
+def calculate_result(text,result_list):
     for i in range(256):
         result = xor_text(text,i)
         if len(result) % 2 == 0:
             result_list.append(result)
+
+text = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
+def main(text):
+    result_list = []
+    calculate_result(text, result_list)
 
     #convert hex to text
     import codecs
@@ -44,9 +45,5 @@ def main():
     score = max([calculate_text_score(decode_hex(result)[0]) for result in result_list])
     for result in result_list:
          if calculate_text_score(decode_hex(result)[0]) == score:
-            print(decode_hex(result)[0])
 
-
-
-
-main()
+            return decode_hex(result)[0]
