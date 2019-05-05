@@ -12,11 +12,10 @@ def xor_text(text, key):
     return result
 
  # english_letter_freq from http://en.wikipedia.org/wiki/Letter_frequency
-english_letter_freq = {'e': 12.70, 't': 9.06, 'a': 8.17,
-  'o': 7.51, 'i': 6.97, 'n': 6.75, 's': 6.33, 'h': 6.09, 'r': 5.99,
-  'd': 4.25, 'l': 4.03, 'c': 2.78, 'u': 2.76, 'm': 2.41, 'w': 2.36,
-  'f': 2.23, 'g': 2.02, 'y': 1.97, 'p': 1.93, 'b': 1.29,
-  'v': 0.98, 'k': 0.77, 'j': 0.15, 'x': 0.15, 'q': 0.10, 'z': 0.07, ' ': 0.1}
+english_letter_freq = {    'a': 0.0651738, 'b': 0.0124248, 'c': 0.0217339, 'd': 0.0349835, 'e': 0.1041442, 'f': 0.0197881, 'g': 0.0158610,
+    'h': 0.0492888, 'i': 0.0558094, 'j': 0.0009033, 'k': 0.0050529, 'l': 0.0331490, 'm': 0.0202124, 'n': 0.0564513,
+    'o': 0.0596302, 'p': 0.0137645, 'q': 0.0008606, 'r': 0.0497563, 's': 0.0515760, 't': 0.0729357, 'u': 0.0225134,
+    'v': 0.0082903, 'w': 0.0171272, 'x': 0.0013692, 'y': 0.0145984, 'z': 0.0007836, ' ': 0.1918182}
 
 def calculate_text_score(text):
     lower_case_text = text.lower()
@@ -24,14 +23,17 @@ def calculate_text_score(text):
     for char in lower_case_text:
         if char in english_letter_freq :
             score+= english_letter_freq[char]
-        else:
-            score += 0
+
     return score
 def calculate_result(text,result_list):
     for i in range(256):
         result = xor_text(text,i)
-        if len(result) % 2 == 0:
-            result_list.append(result)
+        if len(result) % 2 != 0:
+            result+="0"
+
+        result_list.append(result)
+
+
 
 text = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
 def main(text):
@@ -44,6 +46,7 @@ def main(text):
     score = 0
     score = max([calculate_text_score(decode_hex(result)[0]) for result in result_list])
     for result in result_list:
+
          if calculate_text_score(decode_hex(result)[0]) == score:
 
             return decode_hex(result)[0]

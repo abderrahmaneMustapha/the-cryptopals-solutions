@@ -1,29 +1,18 @@
 
 from S01C03 import main, calculate_text_score
-f = open("text.txt", "r")
+fp = open("text.txt", "r")
+list = fp.read().split("\n") # create a list containing all lines
+fp.close()
 
-text = str(f.read())
-list = []
-temp = ""
-
-for t in text:
-    if t == ' ' or t == '\n':
-        continue
-    temp+=t
-    if len(temp) == 60:
-        list.append(temp)
-        temp=""
-
-
-result = []
-for l in list:
-    result.append(main(l))
+result = [main(l) for l in list]
 
 m = 0
 i = 0
+
 for r in result:
     if m < calculate_text_score(r):
         m = calculate_text_score(r)
+        i = result.index(r)
 
 print(m)
 print(result[i])
